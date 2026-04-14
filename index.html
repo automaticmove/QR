@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Doorverwijzen...</title>
+<style>
+  body { font-family: -apple-system, sans-serif; text-align: center; padding: 60px 20px; color: #555; }
+</style>
+</head>
+<body>
+<p>Bezig met doorverwijzen...</p>
+<script>
+(async () => {
+  const id = new URLSearchParams(location.search).get('id');
+  if (!id) { document.body.innerHTML = '<p>Geen id opgegeven.</p>'; return; }
+  try {
+    const res = await fetch('links.json?t=' + Date.now());
+    const links = await res.json();
+    if (links[id]) {
+      location.replace(links[id]);
+    } else {
+      document.body.innerHTML = '<p>Link niet gevonden: ' + id + '</p>';
+    }
+  } catch (e) {
+    document.body.innerHTML = '<p>Fout bij laden.</p>';
+  }
+})();
+</script>
+</body>
+</html>
